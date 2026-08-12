@@ -129,7 +129,7 @@ html[data-theme="light"] .blur-bg{filter:blur(16px) saturate(1.05) brightness(.9
 
 /* ============ hero ============ */
 .hero{position:relative;min-height:112vh;display:flex;align-items:center;overflow:hidden}
-.hero-scene{position:absolute;inset:0;perspective:1400px}
+.hero-scene{position:absolute;inset:0}
 .hero-bg{position:absolute;inset:-4%;z-index:0}
 .hero-bg img{width:100%;height:100%;object-fit:cover}
 .hero-bg::after{content:"";position:absolute;inset:0;
@@ -161,9 +161,9 @@ html[data-theme="light"] .hero-bg::after{
 /* hero scene pieces */
 .hero-scene-right{position:relative;height:100%;min-height:540px;perspective:1200px}
 @media(max-width:960px){.hero-scene-right{min-height:460px}}
-.hero-cutout{position:absolute;left:auto;right:0;bottom:0;width:min(44vw,470px);z-index:2;filter:drop-shadow(0 50px 80px rgba(0,0,0,.55))}
+.hero-cutout{position:absolute;left:auto;right:0;bottom:0;width:min(44vw,470px);z-index:2}
 .hero-cutout img{width:100%;height:auto}
-.hero-cutout::after{content:"";position:absolute;inset:auto 8% 2% 8%;height:34px;border-radius:50%;background:radial-gradient(ellipse at center,rgba(0,0,0,.55),transparent 70%);filter:blur(6px)}
+.hero-cutout::after{content:"";position:absolute;inset:auto 10% 2% 10%;height:26px;border-radius:50%;background:radial-gradient(ellipse at center,rgba(0,0,0,.3),transparent 70%);filter:blur(4px)}
 .cv-card{
   position:absolute;left:4%;top:26%;width:min(280px,66vw);z-index:4;transform-style:preserve-3d;
   background:#fff;color:#10141f;border-radius:14px;padding:18px 20px;
@@ -392,14 +392,12 @@ footer{border-top:1px solid var(--line);padding:4rem 0 2.5rem;position:relative}
 <section class="hero" id="top">
   <div class="hero-scene">
     <!-- background layer (deep) -->
-    <div class="plx-layer hero-bg" data-speed="0.12" data-depth="-700">
+    <div class="plx-layer hero-bg" data-speed="0.12" data-depth="-150">
       <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1920&q=80" alt="" aria-hidden="true" fetchpriority="high" />
     </div>
-    <div class="glow-orb orb-o" style="width:520px;height:520px;right:-8%;top:8%;z-index:1" data-speed="0.2" data-depth="-350"></div>
-    <div class="glow-orb orb-c" style="width:420px;height:420px;left:-6%;bottom:-6%;z-index:1" data-speed="0.26" data-depth="-280"></div>
   </div>
 
-  <div class="container hero-grid" data-tilt="5" data-tilt-scene="1">
+  <div class="container hero-grid">
     <div class="hero-copy">
       <span class="badge reveal in"><span class="star">★</span> Trusted by 500+ job seekers</span>
       <h1>Your CV, <span class="grad">Job-Ready.</span><br />Instantly.</h1>
@@ -420,7 +418,7 @@ footer{border-top:1px solid var(--line);padding:4rem 0 2.5rem;position:relative}
     </div>
 
     <!-- 3D scene right -->
-    <div class="hero-scene-right" aria-hidden="true">
+    <div class="hero-scene-right" data-tilt="4" aria-hidden="true">
       <!-- midground: cutout portrait -->
       <div class="plx-layer hero-cutout" data-speed="0.32" data-depth="-260">
         <img class="mask-cutout" src="https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&w=900&q=80" alt="A South African professional, confident and camera-ready" />
