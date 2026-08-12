@@ -56,6 +56,26 @@ export function SocialProof() {
             </span>
           ))}
         </div>
+        {/* corner stickers */}
+        <span
+          aria-hidden="true"
+          className="sticker sticker-paper animate-bob absolute left-5 top-1/2 hidden h-14 w-14 -mt-7 rotate-[-8deg] lg:grid"
+        >
+          <span className="text-center leading-none">
+            <span className="block font-serif text-base">18</span>
+            <span className="block text-[8px] font-semibold uppercase tracking-wider">brands</span>
+          </span>
+        </span>
+        <span
+          aria-hidden="true"
+          className="sticker sticker-sage animate-bob absolute right-5 top-1/2 hidden h-14 w-14 -mt-7 rotate-[8deg] lg:grid"
+          style={{ animationDelay: "-2s" }}
+        >
+          <span className="text-center leading-none">
+            <span className="block font-serif text-base">0+</span>
+            <span className="block text-[8px] font-semibold uppercase tracking-wider">fees</span>
+          </span>
+        </span>
       </div>
 
       <div ref={ref} className="mx-auto grid max-w-5xl grid-cols-2 gap-8 px-5 py-16 md:grid-cols-4 md:px-8">

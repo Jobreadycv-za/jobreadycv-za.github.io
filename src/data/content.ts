@@ -46,7 +46,8 @@ export const features = [
       "Export print-perfect PDF or Word",
     ],
     image: "images/cv-document.jpg",
-    alt: "Premium printed CV for Lerato Molefe on a walnut desk",
+    alt: "A printed CV on a wooden desk beside coffee and a laptop",
+    badge: "ATS-safe",
   },
   {
     id: "letter",
@@ -59,7 +60,8 @@ export const features = [
       "Built-in SA spelling and hiring conventions",
     ],
     image: "images/cover-letter.jpg",
-    alt: "Elegant cover letter on cream stationery with a gold pen",
+    alt: "A handwritten letter and envelope on a desk with a fountain pen",
+    badge: "Your voice",
   },
   {
     id: "linkedin",
@@ -72,7 +74,8 @@ export const features = [
       "Banner, featured, and headline kit",
     ],
     image: "images/linkedin-profile.jpg",
-    alt: "Laptop showing a polished professional profile for Thabo Nkosi",
+    alt: "A clipboard with a CV beside a laptop and pen on a marble desk",
+    badge: "Recruiter-ready",
   },
 ];
 

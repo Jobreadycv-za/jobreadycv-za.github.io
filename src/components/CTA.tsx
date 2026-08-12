@@ -3,7 +3,6 @@ import { WhatsAppCta } from "./WhatsAppCta";
 import { WhatsAppIcon } from "./WhatsAppIcon";
 
 export function CTA() {
-
   return (
     <section className="px-5 pb-16 md:px-8 md:pb-24" id="cta">
       <Reveal variant="scale">
@@ -35,13 +34,35 @@ export function CTA() {
             <div className="flex flex-col items-start gap-3 lg:items-end">
               <WhatsAppCta
                 source="final-cta"
-                className="inline-flex items-center gap-2 rounded-full bg-gold px-7 py-4 text-sm font-semibold text-ink shadow-[var(--shadow-gold)] hover:bg-gold-light"
+                className="btn-3d btn-shine inline-flex items-center gap-2 rounded-full bg-gold px-7 py-4 text-sm font-semibold text-ink"
               >
                 <WhatsAppIcon className="h-4 w-4" />
                 Chat on WhatsApp
               </WhatsAppCta>
               <p className="text-xs text-cream/50">+27 68 251 0828 · usually reply in minutes</p>
             </div>
+          </div>
+
+          {/* floating plan chips */}
+          <div
+            className="animate-float float-chip absolute left-8 top-8 z-10 hidden rounded-2xl px-4 py-2.5 text-ink md:block"
+            style={{ "--tilt": "-3deg" } as React.CSSProperties}
+            aria-hidden="true"
+          >
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-gold-deep">
+              Starter
+            </p>
+            <p className="font-serif text-lg leading-none">R0 · free forever</p>
+          </div>
+          <div
+            className="animate-float float-chip absolute bottom-8 right-8 z-10 hidden rounded-2xl px-4 py-2.5 text-ink md:block"
+            style={{ "--tilt": "2deg", animationDelay: "-2s" } as React.CSSProperties}
+            aria-hidden="true"
+          >
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-gold-deep">
+              Pro
+            </p>
+            <p className="font-serif text-lg leading-none">R99/mo · annual</p>
           </div>
         </div>
       </Reveal>

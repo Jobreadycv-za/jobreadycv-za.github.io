@@ -1,20 +1,63 @@
-import { Play, Sparkles } from "lucide-react";
+import { useRef } from "react";
+import { Play, Sparkles, Star } from "lucide-react";
 import { WhatsAppCta } from "./WhatsAppCta";
 import { WhatsAppIcon } from "./WhatsAppIcon";
+import { useTilt } from "../hooks/useTilt";
 
 export function Hero() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const tilt = useTilt(6);
+
+  const onMove = (e: React.MouseEvent) => {
+    const el = sectionRef.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const r = el.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    el.style.setProperty("--px", x.toFixed(3));
+    el.style.setProperty("--py", y.toFixed(3));
+  };
+
+  const layer = (dx: number, dy: number) =>
+    ({
+      transform: `translate3d(calc(var(--px, 0) * ${dx}px), calc(var(--py, 0) * ${dy}px), 0)`,
+    }) as React.CSSProperties;
 
   return (
-    <section className="relative isolate overflow-hidden bg-ink text-cream" id="top">
+    <section
+      ref={sectionRef}
+      onMouseMove={onMove}
+      className="relative isolate overflow-hidden bg-ink text-cream"
+      id="top"
+    >
       <div className="grain pointer-events-none absolute inset-0" />
+      <div className="dots-bg pointer-events-none absolute inset-0 opacity-60" />
       <div className="orb orb-gold -left-24 top-10 h-80 w-80" />
       <div className="orb orb-sage right-0 top-40 h-96 w-96" style={{ animationDelay: "-6s" }} />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-ink to-transparent" />
 
+      {/* spinning dashed ring, decorative */}
+      <svg
+        aria-hidden="true"
+        className="animate-spin-slow pointer-events-none absolute -right-24 top-24 h-72 w-72 text-gold/25"
+        viewBox="0 0 100 100"
+        fill="none"
+      >
+        <circle
+          cx="50"
+          cy="50"
+          r="46"
+          stroke="currentColor"
+          strokeWidth="1"
+          strokeDasharray="3 7"
+        />
+      </svg>
+
       <div className="relative z-10 mx-auto grid max-w-7xl gap-12 px-5 pb-24 pt-32 md:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-10 lg:pb-32 lg:pt-40">
         <div>
           <div
-            className="animate-fade-up inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-gold-light"
+            className="animate-fade-up inline-flex -rotate-1 items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-gold-light shadow-[0_10px_24px_-12px_rgb(0_0_0_/_0.6)]"
             style={{ animationDelay: "80ms" }}
           >
             <Sparkles className="h-3.5 w-3.5" />
@@ -26,7 +69,7 @@ export function Hero() {
             style={{ animationDelay: "160ms" }}
           >
             Get job-ready.
-            <span className="mt-1 block italic text-gold-light">Get hired.</span>
+            <span className="gold-text mt-1 block italic">Get hired.</span>
           </h1>
 
           <p
@@ -43,7 +86,7 @@ export function Hero() {
           >
             <WhatsAppCta
               source="hero"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-gold px-6 py-3.5 text-sm font-semibold text-ink shadow-[0_18px_40px_-16px_rgb(196_162_101_/_0.85)] transition hover:bg-gold-light"
+              className="btn-3d btn-shine inline-flex items-center justify-center gap-2 rounded-full bg-gold px-6 py-3.5 text-sm font-semibold text-ink"
             >
               <WhatsAppIcon className="h-4 w-4" />
               Build my CV on WhatsApp
@@ -83,52 +126,93 @@ export function Hero() {
           </dl>
         </div>
 
+        {/* ---- 3D scene ---- */}
         <div className="relative mx-auto w-full max-w-md lg:max-w-none">
-          <div className="animate-fade-up relative" style={{ animationDelay: "280ms" }}>
-            <div className="absolute -inset-6 rounded-[2rem] bg-gradient-to-br from-gold/25 via-transparent to-sage/20 blur-2xl" />
-            <div className="relative overflow-hidden rounded-[1.7rem] border border-white/10 shadow-[0_40px_80px_-24px_rgb(0_0_0_/_0.7)]">
+          {/* glow */}
+          <div className="pointer-events-none absolute -inset-10 rounded-[3rem] bg-gradient-to-br from-gold/20 via-transparent to-sage/15 blur-3xl" />
+
+          {/* arch accent behind, drifting */}
+          <div
+            aria-hidden="true"
+            className="animate-bob arch pointer-events-none absolute -right-2 -top-8 h-28 w-24 rotate-6 border border-gold/25 bg-gradient-to-b from-gold/15 to-transparent"
+          />
+
+          <div
+            className="animate-fade-up relative"
+            style={{ animationDelay: "280ms" }}
+          >
+          <div className="parallax-layer relative" style={{ ...layer(-14, -8) }}>
+          <div
+            ref={tilt.ref}
+            onMouseMove={tilt.onMouseMove}
+            onMouseLeave={tilt.onMouseLeave}
+            className="preserve-3d relative transition-transform duration-200 ease-out will-change-transform"
+          >
+            {/* stacked sheets behind the main photo */}
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 rotate-[2.4deg] translate-x-5 translate-y-6 rounded-[2rem] border border-white/10 bg-paper/90 shadow-sheet"
+            />
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 -rotate-[1.6deg] translate-x-2 translate-y-3 rounded-[2rem] border border-white/10 bg-paper/95 shadow-sheet"
+            />
+
+            {/* main photo card */}
+            <span className="tape -top-4 left-12 rotate-2" aria-hidden="true" />
+            <figure className="relative overflow-hidden rounded-[2rem] border border-white/10 shadow-pop">
               <img
                 src="images/hero-portrait.jpg"
-                alt="A confident South African professional standing in a sunlit office"
+                alt="A young South African professional smiling at her desk in a bright office"
                 className="aspect-[4/5] w-full object-cover transition duration-700 hover:scale-[1.03]"
                 fetchPriority="high"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent" />
-              <div className="absolute bottom-5 left-5 right-5">
+              <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/10 to-transparent" />
+              <figcaption className="absolute bottom-5 left-5 right-5">
                 <p className="font-serif text-2xl leading-none text-cream">Lerato M.</p>
                 <p className="mt-1 text-xs text-cream/70">Product Designer · Cape Town</p>
-              </div>
-            </div>
+              </figcaption>
+            </figure>
 
-            <div className="animate-float-slow absolute -left-6 top-10 hidden w-48 rounded-2xl border border-white/10 bg-ink/75 p-3 shadow-2xl backdrop-blur-xl sm:block">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gold-light">
+            {/* ATS score card */}
+            <div
+              className="animate-float absolute -left-6 top-10 z-10 w-44 rounded-2xl border border-line bg-paper p-3 text-ink shadow-pop sm:-left-10"
+              style={{ "--tilt": "-3deg" } as React.CSSProperties}
+            >
+              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gold-deep">
                 ATS score
               </p>
               <div className="mt-2 flex items-end justify-between">
-                <span className="font-serif text-4xl leading-none text-cream">94</span>
+                <span className="font-serif text-4xl leading-none">94</span>
                 <svg viewBox="0 0 48 48" className="score-ring h-12 w-12">
-                  <circle cx="24" cy="24" r="18" stroke="rgba(255,255,255,0.12)" strokeWidth="4" />
+                  <circle cx="24" cy="24" r="18" stroke="#ebe4d6" strokeWidth="4" />
                   <circle
                     cx="24"
                     cy="24"
                     r="18"
-                    stroke="#e4c98a"
+                    stroke="#9a7b3c"
                     strokeWidth="4"
                     strokeDasharray="113"
                     strokeDashoffset="7"
                   />
                 </svg>
               </div>
-              <p className="mt-1 text-[11px] text-cream/55">Ready for SuccessFactors</p>
+              <p className="mt-1 text-[11px] text-stone">Ready for SuccessFactors</p>
             </div>
 
+            {/* CV page card */}
             <div
-              className="animate-float absolute -right-4 bottom-24 hidden w-[15.5rem] rounded-2xl border border-white/10 bg-paper p-3.5 text-ink shadow-2xl sm:block"
-              style={{ animationDelay: "-2s" }}
+              className="animate-float absolute -right-3 bottom-24 z-10 w-56 rounded-2xl border border-line bg-paper p-3.5 text-ink shadow-pop sm:-right-6"
+              style={{ "--tilt": "2deg", animationDelay: "-2s" } as React.CSSProperties}
             >
-              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-gold-deep">
-                CV · page 1
-              </p>
+              <div className="flex items-center justify-between">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-gold-deep">
+                  CV · page 1
+                </p>
+                <span className="rounded-full bg-sage-soft px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-sage">
+                  ATS ✓
+                </span>
+              </div>
               <p className="mt-1.5 font-serif text-lg leading-none">Lerato Molefe</p>
               <p className="mt-1 text-[11px] text-stone">Senior Product Designer</p>
               <div className="mt-3 space-y-1.5">
@@ -138,8 +222,9 @@ export function Hero() {
               </div>
             </div>
 
+            {/* interview toast */}
             <div
-              className="animate-toast absolute right-3 top-3 flex items-start gap-3 rounded-2xl border border-white/10 bg-ink/80 px-3 py-2.5 shadow-2xl backdrop-blur-xl sm:-right-2 sm:top-4 sm:px-3.5 sm:py-3"
+              className="animate-toast absolute right-3 top-3 z-10 flex items-start gap-3 rounded-2xl border border-white/10 bg-ink/80 px-3 py-2.5 shadow-pop backdrop-blur-xl sm:-right-2 sm:top-4 sm:px-3.5 sm:py-3"
               style={{ animationDelay: "1.1s" }}
             >
               <span className="relative mt-0.5 flex h-2.5 w-2.5">
@@ -151,6 +236,31 @@ export function Hero() {
                 <p className="text-[11px] text-cream/60">Discovery · Thursday 10:00</p>
               </div>
             </div>
+
+            {/* callbacks sticker */}
+            <div
+              aria-hidden="true"
+              className="sticker animate-bob absolute -left-5 bottom-6 z-10 h-20 w-20 rotate-6 sm:-left-8"
+              style={{ animationDelay: "-1.4s" }}
+            >
+              <div className="text-center leading-none">
+                <p className="font-serif text-2xl">3.2×</p>
+                <p className="mt-0.5 text-[9px] font-semibold uppercase tracking-[0.14em]">
+                  callbacks
+                </p>
+              </div>
+            </div>
+          </div>
+          </div>
+          </div>
+
+          {/* small floating star chip, outside the tilt so it stays flat */}
+          <div
+            className="animate-wiggle float-chip absolute -right-2 top-0 z-10 hidden items-center gap-1.5 rounded-full px-3 py-1.5 text-ink lg:flex"
+            aria-hidden="true"
+          >
+            <Star className="h-3.5 w-3.5 fill-gold text-gold-deep" />
+            <span className="text-[11px] font-semibold">4.9 from 2,400 reviews</span>
           </div>
         </div>
       </div>

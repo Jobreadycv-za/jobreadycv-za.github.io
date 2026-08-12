@@ -1,5 +1,16 @@
 import { testimonials } from "../data/content";
 import { Reveal } from "./Reveal";
+import { cn } from "../utils/cn";
+
+// literal strings so Tailwind can scan them
+const rotations = [
+  "-rotate-[1.6deg]",
+  "rotate-[1.2deg]",
+  "-rotate-[1deg]",
+  "rotate-[1.4deg]",
+  "-rotate-[1.2deg]",
+  "rotate-[1.6deg]",
+];
 
 export function Testimonials() {
   return (
@@ -18,20 +29,35 @@ export function Testimonials() {
           </p>
         </Reveal>
 
-        <div className="mt-14 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        <div className="mt-16 grid gap-7 md:grid-cols-2 xl:grid-cols-3">
           {testimonials.map((t, i) => (
             <Reveal key={t.name} delay={i * 80}>
-              <figure className="flex h-full flex-col rounded-[1.6rem] border border-line bg-cream/40 p-6 card-hover">
+              <figure
+                className={cn(
+                  "note-card relative flex h-full flex-col rounded-[1.6rem] border border-line bg-cream/50 p-6 shadow-sheet",
+                  rotations[i % rotations.length],
+                )}
+              >
+                <span
+                  className="tape tape-mist -top-3 left-1/2 -translate-x-1/2"
+                  aria-hidden="true"
+                />
                 <div className="flex items-center gap-3">
-                  <img
-                    src={t.image}
-                    alt={`Portrait of ${t.name}`}
-                    width={48}
-                    height={48}
-                    loading="lazy"
-                    decoding="async"
-                    className="h-12 w-12 rounded-full object-cover ring-2 ring-gold/30"
-                  />
+                  <span
+                    className="polaroid rotate-[-3deg]"
+                    style={{ padding: 4 }}
+                    aria-hidden="true"
+                  >
+                    <img
+                      src={t.image}
+                      alt={`Portrait of ${t.name}`}
+                      width={52}
+                      height={52}
+                      loading="lazy"
+                      decoding="async"
+                      className="h-12 w-12 rounded-full object-cover"
+                    />
+                  </span>
                   <div>
                     <figcaption className="text-sm font-semibold text-ink">{t.name}</figcaption>
                     <p className="text-xs text-stone">
@@ -42,7 +68,11 @@ export function Testimonials() {
                 <blockquote className="mt-5 flex-1 font-serif text-lg leading-snug text-ink/90">
                   “{t.quote}”
                 </blockquote>
-                <p className="mt-5 text-[11px] uppercase tracking-[0.16em] text-gold-deep">{t.city}</p>
+                <p className="mt-5">
+                  <span className="sticker sticker-paper h-8 px-3 text-[10px] font-semibold uppercase tracking-[0.16em]">
+                    {t.city}
+                  </span>
+                </p>
               </figure>
             </Reveal>
           ))}

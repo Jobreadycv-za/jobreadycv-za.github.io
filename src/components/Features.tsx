@@ -44,12 +44,16 @@ export function Features() {
             const Icon = icons[item.icon as keyof typeof icons];
             return (
               <Reveal key={item.title} delay={i * 70}>
-                <article className="group h-full rounded-3xl border border-line bg-paper p-7 card-hover">
-                  <span className="grid h-11 w-11 place-items-center rounded-2xl bg-gold-mist text-gold-deep transition group-hover:bg-gold group-hover:text-ink">
+                <article className="group relative h-full overflow-hidden rounded-3xl border border-line bg-paper p-7 card-hover">
+                  <span
+                    aria-hidden="true"
+                    className="absolute -right-10 -top-10 h-28 w-28 rounded-full bg-gold-mist transition duration-500 group-hover:scale-[1.6]"
+                  />
+                  <span className="relative grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-b from-gold-light to-gold-deep text-ink shadow-[0_5px_0_-1px_rgb(154_123_60_/_0.9),0_14px_24px_-10px_rgb(11_18_32_/_0.35)] transition duration-300 group-hover:-translate-y-1 group-hover:rotate-6">
                     <Icon className="h-5 w-5" strokeWidth={1.8} />
                   </span>
-                  <h3 className="mt-6 font-serif text-2xl text-ink">{item.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-stone">{item.copy}</p>
+                  <h3 className="relative mt-6 font-serif text-2xl text-ink">{item.title}</h3>
+                  <p className="relative mt-3 text-sm leading-relaxed text-stone">{item.copy}</p>
                 </article>
               </Reveal>
             );

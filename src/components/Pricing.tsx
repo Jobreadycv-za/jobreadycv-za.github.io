@@ -7,7 +7,6 @@ import { cn } from "../utils/cn";
 
 export function Pricing() {
   const [annual, setAnnual] = useState(true);
-  
 
   return (
     <section className="bg-cream py-20 md:py-28" id="pricing">
@@ -34,13 +33,13 @@ export function Pricing() {
             aria-checked={annual}
             onClick={() => setAnnual((v) => !v)}
             className={cn(
-              "relative h-8 w-14 rounded-full transition",
+              "relative h-8 w-14 rounded-full transition shadow-inner",
               annual ? "bg-ink" : "bg-line",
             )}
           >
             <span
               className={cn(
-                "absolute top-1 h-6 w-6 rounded-full bg-gold transition-all",
+                "absolute top-1 h-6 w-6 rounded-full bg-gold transition-all shadow-[0_3px_0_-1px_rgb(154_123_60_/_0.9),0_6px_10px_-4px_rgb(11_18_32_/_0.5)]",
                 annual ? "left-7" : "left-1",
               )}
             />
@@ -63,12 +62,12 @@ export function Pricing() {
                   className={cn(
                     "relative flex h-full flex-col rounded-[1.7rem] border p-7 transition",
                     plan.featured
-                      ? "border-gold bg-ink text-cream shadow-[var(--shadow-gold)] lg:-translate-y-3"
-                      : "border-line bg-paper text-ink",
+                      ? "card-stack border-gold bg-ink text-cream shadow-gold lg:-translate-y-3"
+                      : "border-line bg-paper text-ink shadow-3d",
                   )}
                 >
                   {plan.featured && (
-                    <span className="absolute -top-3 left-7 rounded-full bg-gold px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-ink">
+                    <span className="absolute -top-3 left-7 rounded-full bg-gold px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-ink shadow-[0_8px_18px_-8px_rgb(196_162_101_/_0.9)]">
                       Most chosen
                     </span>
                   )}
@@ -121,8 +120,8 @@ export function Pricing() {
                     className={cn(
                       "mt-8 inline-flex w-full items-center justify-center rounded-full py-3 text-sm font-semibold transition",
                       plan.featured
-                        ? "bg-gold text-ink hover:bg-gold-light"
-                        : "bg-ink text-cream hover:bg-ink-soft",
+                        ? "btn-3d btn-shine bg-gold text-ink"
+                        : "bg-ink text-cream hover:bg-ink-soft shadow-[0_4px_0_-1px_rgb(11_18_32_/_0.8),0_14px_26px_-12px_rgb(11_18_32_/_0.5)]",
                     )}
                   >
                     {plan.cta}
