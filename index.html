@@ -247,12 +247,13 @@ html[data-theme="light"] .hero-bg::after{
     linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%)}
 .ba-wrap{position:relative;z-index:3;max-width:980px;margin:0 auto}
 .ba{
-  position:relative;border-radius:26px;overflow:hidden;aspect-ratio:16/10.5;
+  position:relative;border-radius:26px;overflow:hidden;width:100%;
+  aspect-ratio:16/10.5;
   border:1px solid var(--line-strong);box-shadow:var(--shadow-pop);
   touch-action:pan-y;cursor:ew-resize;user-select:none
 }
 @media(max-width:620px){
-  .ba{aspect-ratio:16/13.5;min-height:320px}
+  .ba{aspect-ratio:16/13}
 }
 .ba-panel{position:absolute;inset:0;background:#fff;color:#10141f}
 .ba-panel .doc{position:absolute;inset:0;display:grid;place-items:center}
@@ -269,14 +270,18 @@ html[data-theme="light"] .hero-bg::after{
   .doc-sec{margin:9px 0 6px;font-size:.52rem}
   .doc.after .acc{margin-top:8px;font-size:.6rem;padding:.32rem .6rem}
 }
-.doc.before .doc-paper{filter:grayscale(.85) contrast(.92);opacity:.92}
-.doc.before .doc-line{background:#e4e6ee;height:7px}
-.doc.before .doc-sec{color:#b9bfd0}
+.doc.before .doc-paper{background:#eef0f6;filter:none;opacity:1;color:#9aa3b8}
+.doc.before .doc-paper h4{color:#9aa3b8;font-weight:600}
+.doc.before .doc-paper .sub{color:#aab2c4}
+.doc.before .doc-line{background:#d9dde8;height:7px}
+.doc.before .doc-sec{color:#b6bdcf}
+.doc.before .acc.gray{display:inline-block;margin-top:14px;background:#dfe3ee;color:#8b93ad;font-size:.68rem;font-weight:700;padding:.4rem .8rem;border-radius:999px}
 .doc.after .doc-paper{position:relative;overflow:hidden}
 .doc.after .doc-paper::before{content:"";position:absolute;inset:0 auto 0 0;width:5px;background:var(--grad)}
 .doc.after .doc-sec{color:#ff6b3d}
-.doc.after .hl{background:linear-gradient(90deg,rgba(255,107,61,.28),rgba(255,107,61,.06));border-radius:5px;height:9px}
-.doc.after .acc{display:inline-block;margin-top:14px;background:var(--grad);color:#140800;font-size:.68rem;font-weight:700;padding:.4rem .8rem;border-radius:999px}
+.doc.after .hl{background:linear-gradient(90deg,rgba(255,107,61,.34),rgba(255,107,61,.08));border-radius:5px;height:9px;position:relative}
+.doc.after .hl::after{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:3px;background:var(--grad)}
+.doc.after .acc{display:inline-block;margin-top:14px;background:var(--grad);color:#140800;font-size:.68rem;font-weight:700;padding:.4rem .8rem;border-radius:999px;box-shadow:0 10px 22px -8px rgba(255,107,61,.6)}
 .ba-tag{position:absolute;top:16px;padding:.5rem 1rem;border-radius:999px;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;z-index:5;backdrop-filter:blur(8px)}
 .ba-tag.before{left:16px;background:rgba(15,20,40,.72);color:#cfd6ea}
 .ba-tag.after{right:16px;background:var(--grad);color:#140800;box-shadow:0 10px 24px -8px rgba(255,107,61,.6)}
@@ -366,11 +371,12 @@ footer{border-top:1px solid var(--line);padding:4rem 0 2.5rem;position:relative}
 .wa-float:hover{transform:translateY(-4px) scale(1.05)}
 .wa-float::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:2px solid rgba(31,189,92,.4);animation:ping 2.2s ease infinite}
 
-/* reveal */
-.reveal{opacity:0;transform:translateY(34px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
-.reveal.in{opacity:1;transform:translateY(0)}
+/* reveal — content is VISIBLE by default; only hides when JS is running */
+.reveal{opacity:1;transform:none;transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
+html.js .reveal{opacity:0;transform:translateY(34px)}
+html.js .reveal.in{opacity:1;transform:translateY(0)}
 /* elements that are both revealed AND scroll-tilted: let JS own the transform */
-.reveal[data-tilt],.reveal[data-tilt-scene]{transition:opacity .9s cubic-bezier(.16,1,.3,1);will-change:opacity,transform}
+html.js .reveal[data-tilt],html.js .reveal[data-tilt-scene]{transition:opacity .9s cubic-bezier(.16,1,.3,1);will-change:opacity,transform}
 
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
@@ -528,6 +534,7 @@ footer{border-top:1px solid var(--line);padding:4rem 0 2.5rem;position:relative}
             <div class="doc-line" style="width:70%"></div>
             <div class="doc-line" style="width:80%"></div>
             <div class="doc-line" style="width:60%"></div>
+            <span class="acc gray">No ATS match · silent</span>
           </div>
         </div>
         <div class="ba-panel doc after" style="clip-path:inset(0 0 0 55%)">
@@ -545,8 +552,8 @@ footer{border-top:1px solid var(--line);padding:4rem 0 2.5rem;position:relative}
             <span class="acc">ATS 94 · Interview-ready</span>
           </div>
         </div>
-        <span class="ba-tag before">Before — buried in the pile</span>
-        <span class="ba-tag after">After — first in the pile</span>
+        <span class="ba-tag before">Before</span>
+        <span class="ba-tag after">After</span>
         <div class="ba-handle" id="baHandle"></div>
       </div>
       <p class="ba-caption">Drag the handle ⇄ — no AI filter, just structure, SA English and proof.</p>
@@ -754,6 +761,9 @@ footer{border-top:1px solid var(--line);padding:4rem 0 2.5rem;position:relative}
 (function(){
   'use strict';
 
+  /* mark JS running — reveal animations only hide content when JS is active */
+  document.documentElement.classList.add('js');
+
   /* ---------- theme ---------- */
   var root = document.documentElement;
   var saved = null;
@@ -863,6 +873,16 @@ footer{border-top:1px solid var(--line);padding:4rem 0 2.5rem;position:relative}
 
   /* ---------- reveal on scroll ---------- */
   var reveals = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+  function revealInView(){
+    var vh = window.innerHeight || document.documentElement.clientHeight;
+    var changed = false;
+    reveals.forEach(function(el){
+      if (el.classList.contains('in')) return;
+      var r = el.getBoundingClientRect();
+      if (r.top < vh * 0.96 && r.bottom > -20) { el.classList.add('in'); changed = true; }
+    });
+    return changed;
+  }
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function(entries){
       entries.forEach(function(en){
@@ -873,6 +893,11 @@ footer{border-top:1px solid var(--line);padding:4rem 0 2.5rem;position:relative}
   } else {
     reveals.forEach(function(el){ el.classList.add('in'); });
   }
+  /* backup: reveal anything already in view (load, resize, scroll) */
+  window.addEventListener('load', revealInView);
+  window.addEventListener('scroll', function(){ if (revealInView()) { /* done */ } }, { passive: true });
+  setInterval(revealInView, 900);
+  revealInView();
 
   /* ---------- count up stats ---------- */
   var counters = Array.prototype.slice.call(document.querySelectorAll('[data-count]'));
@@ -903,14 +928,16 @@ footer{border-top:1px solid var(--line);padding:4rem 0 2.5rem;position:relative}
   var handle = document.getElementById('baHandle');
   var afterPanel = ba.querySelector('.after');
   var dragging = false;
-  function setPos(clientX){
-    var r = ba.getBoundingClientRect();
-    if (!r.width) return; // layout not ready — keep CSS default
-    var pct = ((clientX - r.left) / r.width) * 100;
+  function setPct(pct){
     pct = Math.max(8, Math.min(92, pct));
     afterPanel.style.clipPath = 'inset(0 0 0 ' + pct + '%)';
     handle.style.left = pct + '%';
     ba.setAttribute('aria-valuenow', String(Math.round(pct)));
+  }
+  function setPos(clientX){
+    var r = ba.getBoundingClientRect();
+    if (!r.width) return; // layout not ready — keep CSS default
+    setPct(((clientX - r.left) / r.width) * 100);
   }
   ba.addEventListener('pointerdown', function(e){ dragging = true; ba.setPointerCapture(e.pointerId); setPos(e.clientX); });
   ba.addEventListener('pointermove', function(e){ if (dragging) setPos(e.clientX); });
@@ -931,12 +958,32 @@ footer{border-top:1px solid var(--line);padding:4rem 0 2.5rem;position:relative}
   ba.setAttribute('aria-valuenow','55');
   function initBaPos(){
     var r = ba.getBoundingClientRect();
-    if (r.width) setPos(r.left + r.width * 0.55);
+    if (r.width) setPct(55);
   }
   initBaPos();
   window.addEventListener('load', initBaPos);
   window.addEventListener('resize', initBaPos);
   setTimeout(initBaPos, 300);
+
+  /* auto-demo sweep the first time the comparison scrolls into view */
+  var demoed = false;
+  function demo(){
+    if (demoed) return;
+    var r = ba.getBoundingClientRect();
+    if (!r.width) return;
+    if (r.bottom < 0 || r.top > window.innerHeight) return; // not on screen yet
+    demoed = true;
+    var steps = [85, 68, 50, 62, 55];
+    var i = 0;
+    (function next(){
+      if (i >= steps.length) { setPct(55); return; }
+      setPct(steps[i]); i++;
+      setTimeout(next, 320);
+    })();
+  }
+  setTimeout(demo, 700);
+  window.addEventListener('scroll', function(){ if (!demoed) demo(); }, { passive: true });
+  setTimeout(function(){ if (!demoed) demo(); }, 2500);
 
   /* ---------- pricing toggle ---------- */
   var switchBtn = document.getElementById('priceSwitch');
