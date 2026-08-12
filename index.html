@@ -240,11 +240,19 @@ html[data-theme="light"] .hero-bg::after{
 
 /* ============ before / after ============ */
 .ba-section{position:relative;overflow:hidden}
+.ba-bg{position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(120% 90% at 50% 0%,rgba(99,102,241,.16),transparent 60%),
+    radial-gradient(90% 70% at 85% 90%,rgba(255,107,61,.12),transparent 55%),
+    linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%)}
 .ba-wrap{position:relative;z-index:3;max-width:980px;margin:0 auto}
 .ba{
   position:relative;border-radius:26px;overflow:hidden;aspect-ratio:16/10.5;
   border:1px solid var(--line-strong);box-shadow:var(--shadow-pop);
   touch-action:pan-y;cursor:ew-resize;user-select:none
+}
+@media(max-width:620px){
+  .ba{aspect-ratio:16/13.5;min-height:320px}
 }
 .ba-panel{position:absolute;inset:0;background:#fff;color:#10141f}
 .ba-panel .doc{position:absolute;inset:0;display:grid;place-items:center}
@@ -253,6 +261,14 @@ html[data-theme="light"] .hero-bg::after{
 .doc-paper .sub{font-size:.78rem;color:#8b93ad;margin-bottom:20px}
 .doc-line{height:8px;border-radius:5px;background:#e9ebf2;margin-bottom:10px}
 .doc-sec{font-size:.62rem;font-weight:700;letter-spacing:.16em;color:#b3b9cc;text-transform:uppercase;margin:16px 0 10px}
+@media(max-width:620px){
+  .doc-paper{width:92%;padding:16px 20px}
+  .doc-paper h4{font-size:1.12rem}
+  .doc-paper .sub{font-size:.66rem;margin-bottom:12px}
+  .doc-line{height:6px;margin-bottom:6px}
+  .doc-sec{margin:9px 0 6px;font-size:.52rem}
+  .doc.after .acc{margin-top:8px;font-size:.6rem;padding:.32rem .6rem}
+}
 .doc.before .doc-paper{filter:grayscale(.85) contrast(.92);opacity:.92}
 .doc.before .doc-line{background:#e4e6ee;height:7px}
 .doc.before .doc-sec{color:#b9bfd0}
@@ -490,9 +506,7 @@ footer{border-top:1px solid var(--line);padding:4rem 0 2.5rem;position:relative}
 
 <!-- ================= BEFORE / AFTER ================= -->
 <section class="section ba-section" id="glowup">
-  <div class="plx-layer" style="inset:-30% 0;z-index:0" data-speed="0.15" data-depth="-500">
-    <img class="blur-bg" src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80" alt="" aria-hidden="true" />
-  </div>
+  <div class="ba-bg" aria-hidden="true"></div>
   <div class="container" style="position:relative;z-index:2">
     <div class="section-head reveal" style="margin-inline:auto;text-align:center;max-width:620px">
       <span class="eyebrow" style="justify-content:center">The glow-up</span>
@@ -891,11 +905,12 @@ footer{border-top:1px solid var(--line);padding:4rem 0 2.5rem;position:relative}
   var dragging = false;
   function setPos(clientX){
     var r = ba.getBoundingClientRect();
+    if (!r.width) return; // layout not ready — keep CSS default
     var pct = ((clientX - r.left) / r.width) * 100;
-    pct = clamp01(pct) * 100;
     pct = Math.max(8, Math.min(92, pct));
     afterPanel.style.clipPath = 'inset(0 0 0 ' + pct + '%)';
     handle.style.left = pct + '%';
+    ba.setAttribute('aria-valuenow', String(Math.round(pct)));
   }
   ba.addEventListener('pointerdown', function(e){ dragging = true; ba.setPointerCapture(e.pointerId); setPos(e.clientX); });
   ba.addEventListener('pointermove', function(e){ if (dragging) setPos(e.clientX); });
@@ -914,7 +929,14 @@ footer{border-top:1px solid var(--line);padding:4rem 0 2.5rem;position:relative}
   ba.setAttribute('aria-valuemin','8');
   ba.setAttribute('aria-valuemax','92');
   ba.setAttribute('aria-valuenow','55');
-  setPos(ba.getBoundingClientRect().left + ba.getBoundingClientRect().width * 0.55);
+  function initBaPos(){
+    var r = ba.getBoundingClientRect();
+    if (r.width) setPos(r.left + r.width * 0.55);
+  }
+  initBaPos();
+  window.addEventListener('load', initBaPos);
+  window.addEventListener('resize', initBaPos);
+  setTimeout(initBaPos, 300);
 
   /* ---------- pricing toggle ---------- */
   var switchBtn = document.getElementById('priceSwitch');
