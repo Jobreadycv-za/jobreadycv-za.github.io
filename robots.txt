@@ -1,6 +1,3 @@
 User-agent: *
 Allow: /
-Disallow: /privacy.html
-Disallow: /terms.html
-
 Sitemap: https://jobreadycv-za.github.io/sitemap.xml
